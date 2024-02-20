@@ -1,0 +1,6 @@
+test: P:\PyProjects\WORK_PROJECTS\RANEPA\Historical-docs-OCR\data\processed\for YOLO detector\test\images
+train: P:\PyProjects\WORK_PROJECTS\RANEPA\Historical-docs-OCR\data\processed\for YOLO detector\train\images
+val: P:\PyProjects\WORK_PROJECTS\RANEPA\Historical-docs-OCR\data\processed\for YOLO detector\valid\images
+
+names:
+- text
