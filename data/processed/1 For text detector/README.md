@@ -1,0 +1,1 @@
+Data for text detector train

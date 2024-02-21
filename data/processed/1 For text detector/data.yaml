@@ -1,0 +1,6 @@
+test: P:\PyProjects\WORK_PROJECTS\RANEPA\Historical-docs-OCR\data\processed\1 For text detector\test\images
+train: P:\PyProjects\WORK_PROJECTS\RANEPA\Historical-docs-OCR\data\processed\1 For text detector\train\images
+val: P:\PyProjects\WORK_PROJECTS\RANEPA\Historical-docs-OCR\data\processed\1 For text detector\valid\images
+
+names:
+- text
