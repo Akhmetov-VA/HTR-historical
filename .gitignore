@@ -7,3 +7,9 @@ runs/*
 notebooks/3 TEXT RECOGNIZER/seq2seq_model_checkpoints
 notebooks/2 TEXT DETECTOR/yolov8l.pt
 notebooks/2 TEXT DETECTOR/yolov8n.pt
+reports/pobed_pred.csv
+notebooks/6 SEGMENTER TEST/best.pt
+notebooks/6 SEGMENTER TEST/yolov8n-seg.pt
+notebooks/6 SEGMENTER TEST/yolov8n.pt
+notebooks/6 SEGMENTER TEST/seg_test
+notebooks/6 SEGMENTER TEST/seq2seq_model_checkpoints
