@@ -1,5 +1,6 @@
 .git
 .idea
+.venv
 data/raw/*
 data/processed/*
 models/*

@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "htr-historical"
+version = "0.1.0"
+description = ""
+authors = ["Vadim Akhmetov <golden312va@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+transformers = "4.37.2"
+ultralytics = "8.1.15"
+opencv-python = "4.9.0.80"
+numpy = "1.26.4"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
