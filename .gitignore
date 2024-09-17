@@ -2,9 +2,12 @@
 .idea
 .venv
 *.pt
+*.csv
+*.jpeg
+*.png
+*.jpg
+*.zip
 __pycache__
-data/raw/*
-data/processed/*
 models/*
 runs/*
 notebooks/3 TEXT RECOGNIZER/seq2seq_model_checkpoints
@@ -15,4 +18,9 @@ notebooks/6 SEGMENTER TEST/best.pt
 notebooks/6 SEGMENTER TEST/yolov8n-seg.pt
 notebooks/6 SEGMENTER TEST/yolov8n.pt
 notebooks/6 SEGMENTER TEST/seg_test
-notebooks/6 SEGMENTER TEST/seq2seq_model_checkpoints
+data/processed/4 Segmenter test/text_recognizer
+data/processed/4 Segmenter test/text_segmenter
+data/raw/__MACOSX
+data/raw/14
+data/raw/Распознавание текстов
+data/raw/target_markup

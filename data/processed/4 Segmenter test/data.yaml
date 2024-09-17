@@ -1,0 +1,6 @@
+test: /storage3/vadim/HTR-historical/data/processed/4 Segmenter test/text_segmenter/test/images
+train: /storage3/vadim/HTR-historical/data/processed/4 Segmenter test/text_segmenter/train/images
+val: /storage3/vadim/HTR-historical/data/processed/4 Segmenter test/text_segmenter/valid/images
+
+names:
+- text
