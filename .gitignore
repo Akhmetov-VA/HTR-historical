@@ -8,8 +8,6 @@
 *.jpg
 *.zip
 __pycache__
-models/*
-runs/*
 notebooks/3 TEXT RECOGNIZER/seq2seq_model_checkpoints
 notebooks/2 TEXT DETECTOR/yolov8l.pt
 notebooks/2 TEXT DETECTOR/yolov8n.pt
@@ -24,3 +22,5 @@ data/raw/__MACOSX
 data/raw/14
 data/raw/Распознавание текстов
 data/raw/target_markup
+models/recognizer/trocr_ru_pretrain_3epoch
+runs/segment
