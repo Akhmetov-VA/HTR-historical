@@ -13,13 +13,17 @@ from pathlib import Path
 import os
 from src.predictor import TextRecognizePipeline
 
+import torch
+torch.cuda.set_per_process_memory_fraction(0.5, 0)
+
+
 st.set_page_config(layout="wide")
 
 
 @st.cache_resource
 def load_predictor():
-    detection_model_path = "/storage3/vadim/HTR-historical/models/detector/best.pt"
-    ocr_model_dir_path = "/storage3/vadim/HTR-historical/models/recognizer/trocr_ru_pretrain_3epoch"
+    detection_model_path = "models/detector/best.pt"
+    ocr_model_dir_path = "models/recognizer/trocr_ru_pretrain_3epoch"
 
     ocr_pipeline = TextRecognizePipeline(
         detection_model_path=detection_model_path, ocr_model_dir_path=ocr_model_dir_path
@@ -28,7 +32,7 @@ def load_predictor():
 
 
 ############################
-TEST_IMAGE = '11227411_doc1.jpg'
+TEST_IMAGE = 'app/11227411_doc1.jpg'
 ocr_pipeline = load_predictor()
 
 ### Main
@@ -134,18 +138,18 @@ if uploaded_image is not None:
     image = Image.open(uploaded_image)
     st.image(image, caption="Загруженное изображение", use_column_width=True)
     
-if st.sidebar.button('Получить предсказание'):
-    if uploaded_image is None:
-        image = Image.open(TEST_IMAGE)
-    
-    cropped_images, recognized_text = ocr_pipeline.recognize(image)
-    
-    with st.expander('Извлечённые изображения'):
-        #print(sorted_list)
-        for img, text in zip(cropped_images, recognized_text):
-            # st.text(img)
-            st.image(img)
-            st.text(text)
-
-    st.download_button('Скачать результат', ' '.join(recognized_text))
+    if st.sidebar.button('Распознать') or st.button('Распознать текст'):
+        if uploaded_image is None:
+            image = Image.open(TEST_IMAGE)
         
+        cropped_images, recognized_text = ocr_pipeline.recognize(image)
+        
+        with st.expander('Извлечённые изображения'):
+            #print(sorted_list)
+            for img, text in zip(cropped_images, recognized_text):
+                # st.text(img)
+                st.image(img)
+                st.text(text)
+
+        st.download_button('Скачать результат', ' '.join(recognized_text))
+            

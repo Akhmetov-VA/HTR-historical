@@ -9,7 +9,7 @@ from ultralytics import YOLO
 
 class TextRecognizePipeline:
     def __init__(self, detection_model_path: str, ocr_model_dir_path: str):
-        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        self.device = torch.device("cuda:1" if torch.cuda.is_available() else "cpu")
         # self.device = "cpu"
         self.ocr_processor = TrOCRProcessor.from_pretrained("raxtemur/trocr-base-ru")
         self.ocr_model = VisionEncoderDecoderModel.from_pretrained(
@@ -26,11 +26,11 @@ class TextRecognizePipeline:
         self.ocr_model.config.vocab_size = self.ocr_model.config.decoder.vocab_size
         self.ocr_model.config.eos_token_id = self.ocr_processor.tokenizer.sep_token_id
 
-        self.ocr_model.config.max_length = 64
+        self.ocr_model.config.max_length = 124
         self.ocr_model.config.early_stopping = True
         self.ocr_model.config.no_repeat_ngram_size = 3
         self.ocr_model.config.length_penalty = 2.0
-        self.ocr_model.config.num_beams = 4
+        self.ocr_model.config.num_beams = 1
         
     def _sort_bbox_by_center(self, bbox_list):
             # Calculate center for each bounding box and sort by center_y, then center_x
@@ -51,6 +51,9 @@ class TextRecognizePipeline:
             for box in sorted_bboxes:
                 # Crop the image using the bounding box coordinates
                 cropped_image = image.crop(box)
+                # Convert to RGB
+                if cropped_image.mode != 'RGB':
+                    cropped_image = cropped_image.convert('RGB')
                 result.append(cropped_image)
         return result
 

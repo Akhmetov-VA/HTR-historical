@@ -7,6 +7,7 @@
 *.png
 *.jpg
 *.zip
+*.out
 __pycache__
 notebooks/3 TEXT RECOGNIZER/seq2seq_model_checkpoints
 notebooks/2 TEXT DETECTOR/yolov8l.pt
