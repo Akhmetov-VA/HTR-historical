@@ -60,5 +60,6 @@ data
 4. После обучения модели мы получим артефакты их необходимо перенести в models
 
 5. Запуск приложения:
-```nohup streamlit run app/web.py --server.port 27366```
-
+    1) Создаем сессию ```screen -S my_session```
+    2) В этой сессии запускаем приложение ```streamlit run app/web.py --server.port 27366```
+    3) В случае необходимости подключиться обратно ```screen -r my_session```
