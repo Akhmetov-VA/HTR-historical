@@ -131,25 +131,90 @@ P.S. если вы не передадите никаких изображени
 
 ### Slidebar
 st.sidebar.write("## Загрузка документа для распознавания :gear:")
-uploaded_image = st.sidebar.file_uploader("Загрузить файл исторического документа", type=["png", "jpg", "jpeg"])
-path_to_file = None
+# Allow multiple file uploads
+uploaded_files = st.sidebar.file_uploader("Загрузить файлы (png, jpg, jpeg)", type=["png", "jpg", "jpeg"], accept_multiple_files=True)
 
-if uploaded_image is not None:
-    image = Image.open(uploaded_image)
-    st.image(image, caption="Загруженное изображение", use_column_width=True)
-    
-    if st.sidebar.button('Распознать') or st.button('Распознать текст'):
-        if uploaded_image is None:
-            image = Image.open(TEST_IMAGE)
-        
-        cropped_images, recognized_text = ocr_pipeline.recognize(image)
-        
-        with st.expander('Извлечённые изображения'):
-            #print(sorted_list)
+process_option = None
+if uploaded_files and len(uploaded_files) > 1:
+    process_option = st.sidebar.selectbox(
+        "Выберите режим обработки",
+        ("Обработать все", "Обработать по отдельности", )
+    )
+
+if uploaded_files:
+    if len(uploaded_files) == 1:
+        # Automatically process the single uploaded file
+        uploaded_image = uploaded_files[0]
+        image = Image.open(uploaded_image)
+        st.image(image, caption=f"Загруженное изображение: {uploaded_image.name}", use_column_width=True)
+
+        if st.sidebar.button(f'Распознать {uploaded_image.name}'):
+            # Perform recognition for the single file
+            cropped_images, recognized_text = ocr_pipeline.recognize(image)
+
+            with st.expander(f'Извлечённый текст для {uploaded_image.name}'):
+                for img, text in zip(cropped_images, recognized_text):
+                    st.image(img)
+                    st.text(text)
+
+            # Download button for recognized text
+            st.download_button(f'Скачать результат для {uploaded_image.name}', ' '.join(recognized_text))
+
+    elif process_option == "Обработать по отдельности":
+        # Process each file individually
+        for uploaded_image in uploaded_files:
+            image = Image.open(uploaded_image)
+            st.image(image, caption=f"Загруженное изображение: {uploaded_image.name}", use_column_width=True)
+            
+            if st.sidebar.button(f'Распознать {uploaded_image.name}'):
+                # Perform recognition for the selected file
+                cropped_images, recognized_text = ocr_pipeline.recognize(image)
+
+                with st.expander(f'Извлечённый текст для {uploaded_image.name}'):
+                    for img, text in zip(cropped_images, recognized_text):
+                        st.image(img)
+                        st.text(text)
+
+                # Download button for recognized text
+                st.download_button(f'Скачать результат для {uploaded_image.name}', ' '.join(recognized_text))
+
+    elif process_option == "Обработать все":
+        # Process all files at once
+        if st.sidebar.button('Распознать все изображения'):
+            all_recognized_texts = []
+
+            for uploaded_image in uploaded_files:
+                image = Image.open(uploaded_image)
+                st.image(image, caption=f"Загруженное изображение: {uploaded_image.name}", use_column_width=True)
+                
+                # Perform recognition for each file
+                cropped_images, recognized_text = ocr_pipeline.recognize(image)
+                all_recognized_texts.append(f"Результаты для {uploaded_image.name}:\n{' '.join(recognized_text)}\n")
+                
+                with st.expander(f'Извлечённый текст для {uploaded_image.name}'):
+                    for img, text in zip(cropped_images, recognized_text):
+                        st.image(img)
+                        st.text(text)
+
+            # Show combined recognized text
+            combined_text = '\n'.join(all_recognized_texts)
+            st.download_button('Скачать результаты для всех изображений', combined_text)
+
+else:
+    st.write("Загрузите изображения для распознавания.")
+
+# Example behavior when no images are uploaded (use test image)
+TEST_IMAGE = 'app/11227411_doc1.jpg'
+if not uploaded_files:
+    st.image(cv2.imread(TEST_IMAGE), caption='Образец исторического документа')
+
+    if st.button('Распознать тестовое изображение'):
+        test_image = Image.open(TEST_IMAGE)
+        cropped_images, recognized_text = ocr_pipeline.recognize(test_image)
+
+        with st.expander('Извлечённый текст из тестового изображения'):
             for img, text in zip(cropped_images, recognized_text):
-                # st.text(img)
                 st.image(img)
                 st.text(text)
 
-        st.download_button('Скачать результат', ' '.join(recognized_text))
-            
+        st.download_button('Скачать результат тестового изображения', ' '.join(recognized_text))
